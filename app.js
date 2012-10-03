@@ -26,10 +26,11 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', function(req, res){
+
+app.get('/:id', function(req, res){
     var listData = function(err, collection) {
-        collection.find().toArray(function(err, results) {
-            res.render('index.html', { layout : false , 'title' : 'Welcome to YTagger', 'results' : results, "resourceID" : "bPw82nn_E-w" });
+        collection.find({"resourceID" : req.params.id}).toArray(function(err, results) {
+            res.render('index.html', { layout : false , 'title' : 'Welcome to YTagger', 'results' : results, "resourceID" :req.params.id });
 			console.log(results);
 		});
 	}
@@ -49,10 +50,10 @@ app.post('/resource', function(req, res) {
     }
 	
 	var listData = function(err, collection) {
-        collection.find().toArray(function(err, results) {
+        collection.find({"resourceID" : req.body.resourceID}).toArray(function(err, results) {
 			console.log(results);
 			//res.contentType('json');
-			res.send({ layout : false , 'title' : 'Welcome to YTagger7', 'results' : results, "resourceID" : "bPw82nn_E-w" });
+			res.send({ layout : false , 'title' : 'Welcome to YTagger7', 'results' : results, "resourceID" : req.body.resourceID });
 		});
 	}
 	
